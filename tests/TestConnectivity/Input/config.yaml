@@ -1,0 +1,45 @@
+connectivityPlugins:
+  base64Codec:
+    libraryName: Base64Plugin
+    class: Base64Codec
+  mapperCodec:
+    libraryName: MapperCodec
+    class: MapperCodec
+  stringCodec:
+    libraryName: connectivity-string-codec
+    class: StringCodec
+  diagnosticCodec:
+    libraryName: DiagnosticCodec
+    class: DiagnosticCodec
+  unitTestHarness:
+    classpath: ${APAMA_HOME}/lib/connectivity-unit-test-harness.jar
+    class: com.softwareag.connectivity.testplugins.UnitTestHarness
+  nullTransport:
+    classpath: ${APAMA_HOME}/lib/connectivity-unit-test-harness.jar
+    class: com.softwareag.connectivity.testplugins.NullTransport
+
+
+startChains:
+  base64Chain:
+    - apama.eventMap
+    - mapperCodec:
+       '*':
+         towardsHost:
+            mapFrom:
+              - payload.data: payload
+         towardsTransport:
+            mapFrom:
+              - payload: payload.data
+    - diagnosticCodec:
+        output: file
+        fileName: before.txt
+    - stringCodec
+    - base64Codec:
+        filterOnTransferEncoding: false
+    - diagnosticCodec:
+        output: file
+        fileName: after.txt
+    - unitTestHarness:
+        pluginUnderTest: towardsHost
+        echoBack: true
+    - nullTransport

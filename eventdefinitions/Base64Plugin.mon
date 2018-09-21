@@ -1,0 +1,29 @@
+package com.apamax;
+
+/**
+ * Plugin for parsing and encoding data in Base64
+ */
+event Base64Plugin
+{
+	import "Base64Plugin" as plugin;
+	/**
+	 * Decode a Base64 string
+	 * 
+	 * @param data A string encoded in Base64
+	 * @returns A string containing the decoded contents (assuming it's in utf8)
+	 */
+	static action decode(string data) returns string
+	{
+		return plugin.decode(data);
+	}
+	/**
+	 * Encodes a string in Base64
+	 * 
+	 * @param data A string
+	 * @returns The string encoded in Base64
+	 */
+	static action encode(string data) returns string
+	{
+		return plugin.encode(data);
+	}
+}

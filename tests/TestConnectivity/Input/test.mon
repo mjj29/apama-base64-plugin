@@ -1,0 +1,26 @@
+event Data
+{
+	string data;
+}
+
+monitor Testcase
+{
+	action onload()
+	{
+		monitor.subscribe("base64Chain");
+
+		string data := "Hello World";
+
+		on all Data() as d {
+			if (data != d.data) {
+				log "Round-trip mis-match (expected "+data.toString()+" but got "+d.data.toString()+")" at ERROR; 
+			} else {
+				log "Round-trip OK" at INFO;
+			}
+		}
+
+		com.softwareag.connectivity.ConnectivityPlugins.onApplicationInitialized();		
+
+		send Data(data) to "base64Chain";
+	}
+}

@@ -1,0 +1,2 @@
+Towards Transport: {sag.type:Data,sag.channel:base64Chain} / Hello World
+Towards Host: {sag.type:Data,http:{headers:{content-transfer-encoding:base64}},sag.channel:base64Chain} / Hello World

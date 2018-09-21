@@ -1,0 +1,29 @@
+using com.apamax.Base64Plugin;
+
+monitor Testcase
+{
+	action onload()
+	{
+		string data := "Hello World";
+		
+		print data;
+		
+		string base64String := Base64Plugin.encode(data);
+
+		print base64String;
+
+		string decodedString := Base64Plugin.decode(base64String);
+
+		print decodedString;
+
+		if decodedString != data { log "Round-trip mis-match (expected "+data+" but got "+decodedString+")" at ERROR; }
+
+		try {
+			decodedString := Base64Plugin.decode(data);
+			log "Decoding an invalid string should throw. (It returned "+decodedString+" instead)" at ERROR;
+		} catch (com.apama.exceptions.Exception e) {
+			log e.toString();
+		}
+	}
+}
+
